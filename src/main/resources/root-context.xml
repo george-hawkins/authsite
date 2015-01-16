@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_0.dtd">
+
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+
+  <Set name="contextPath">/</Set>
+  <Set name="resourceBase">src/main/webapp</Set>
+
+  <Get name="securityHandler">
+    <Set name="loginService">
+      <New class="org.eclipse.jetty.security.HashLoginService">
+        <Set name="name">Test Realm</Set>
+        <Set name="config"><SystemProperty name="jetty.base" default="."/>/realm.properties</Set>
+      </New>
+    </Set>
+    <Set name="authenticator">
+      <New class="org.eclipse.jetty.security.authentication.FormAuthenticator">
+        <Set name="alwaysSaveUri">true</Set>
+      </New>
+    </Set>
+    <Set name="checkWelcomeFiles">true</Set>
+  </Get>
+
+</Configure>
