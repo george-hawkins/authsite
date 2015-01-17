@@ -1,12 +1,19 @@
 To create DB table:
 
-$ cat create-db.ddl | heroku pg:psql
+$ cat create-tables.ddl | heroku pg:psql
+$ cat create-users.ddl | heroku pg:psql
+
+To build:
+
+$ mvn clean package
 
 To run:
 
 $ export DATABASE_URL=$(heroku config:get DATABASE_URL)
 $ DATABASE_URL="$DATABASE_URL?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory"
-$ java -cp target/classes:target/dependency/* net.betaengine.jettyexample.heroku.Main
+$ java -cp 'target/dependency/*' org.eclipse.jetty.runner.Runner src/main/config/etc/root-context.xml
+
+Note: using `jar -jar .../jetty-runner.jar ...` doesn't work here as `-jar` only honours the classpath in the specified jar's manifest and we want to add the DB driver jar.
 
 ----
 

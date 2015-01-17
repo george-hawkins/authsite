@@ -1,1 +1,1 @@
-web: java -cp target/classes:target/dependency/* net.betaengine.jettyexample.heroku.Main
+web: java -cp target/dependency/* org.eclipse.jetty.runner.Runner src/main/config/etc/root-context.xml

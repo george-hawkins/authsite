@@ -5,6 +5,7 @@
 
     <groupId>net.betaengine.demo</groupId>
     <artifactId>jetty-auth</artifactId>
+    <packaging>war</packaging>
 
     <version>0.1-SNAPSHOT</version>
 
@@ -15,18 +16,37 @@
 
         <jetty.version>9.2.6.v20141205</jetty.version>
         <guice.version>3.0</guice.version>
+        <postgresql.version>9.3-1102-jdbc41</postgresql.version>
     </properties>
 
     <dependencies>
+        <!--
+            jetty-runner is only included so it can be invoked in Eclipse.
+            When running via jetty-runner it provides the other jetty jars.
+        -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-runner</artifactId>
+            <version>${jetty.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
             <version>${jetty.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
             <version>${jetty.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-annotations</artifactId>
+            <version>${jetty.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -57,7 +77,8 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.3-1102-jdbc41</version>
+            <version>${postgresql.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -69,7 +90,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
@@ -78,21 +98,37 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.9</version>
                 <executions>
                     <execution>
-                        <id>copy-dependencies</id>
                         <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
+                        <goals><goal>copy</goal></goals>
                         <configuration>
-                            <includeScope>compile</includeScope>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.postgresql</groupId>
+                                    <artifactId>postgresql</artifactId>
+                                    <version>${postgresql.version}</version>
+                                    <destFileName>postgresql.jar</destFileName>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.jetty</groupId>
+                                    <artifactId>jetty-runner</artifactId>
+                                    <version>${jetty.version}</version>
+                                    <destFileName>jetty-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <warName>${project.artifactId}</warName>
+                </configuration>
             </plugin>
         </plugins>
     </build>

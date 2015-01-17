@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_0.dtd">
+
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+
+    <Set name="contextPath">/</Set>
+    <Set name="war">target/jetty-auth.war</Set>
+
+    <!--
+    By default Configuration.ClassList contains just the configurations in WebAppContext.DEFAULT_CONFIGURATION_CLASSES.
+    This logic modifies the list so that it matches Runner.__plusConfigurationClasses.
+    -->
+    <Set name="configurationClasses">
+        <Call class="org.eclipse.jetty.webapp.Configuration$ClassList" name="serverDefault">
+            <Arg><Ref refid="Server" /></Arg>
+            <Call name="addAfter">
+                <Arg name="afterClass">org.eclipse.jetty.webapp.FragmentConfiguration</Arg>
+                <Arg>
+                    <Array type="String">
+                        <Item>org.eclipse.jetty.plus.webapp.EnvConfiguration</Item>
+                        <Item>org.eclipse.jetty.plus.webapp.PlusConfiguration</Item>
+                        <Item>org.eclipse.jetty.annotations.AnnotationConfiguration</Item>
+                    </Array>
+                </Arg>
+            </Call>
+        </Call>
+    </Set>
+
+    <Get name="securityHandler">
+        <Set name="loginService">
+            <New class="org.eclipse.jetty.security.JDBCLoginService">
+                <Set name="name">Test JDBC Realm</Set>
+                <Set name="config">src/main/config/etc/jdbcRealm.properties</Set>
+            </New>
+        </Set>
+        <Set name="authenticator">
+            <New class="org.eclipse.jetty.security.authentication.FormAuthenticator">
+                <Set name="alwaysSaveUri">true</Set>
+            </New>
+        </Set>
+        <Set name="checkWelcomeFiles">true</Set>
+    </Get>
+
+</Configure>
