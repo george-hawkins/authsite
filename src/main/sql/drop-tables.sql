@@ -1,4 +1,4 @@
--- cat drop-tables.ddl | heroku pg:psql
+-- cat drop-tables.sql | heroku pg:psql
 
 DROP TABLE users;
 DROP TABLE roles;

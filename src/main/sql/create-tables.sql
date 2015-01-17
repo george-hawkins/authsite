@@ -1,4 +1,4 @@
--- cat create-db.ddl | heroku pg:psql
+-- cat create-db.sql | heroku pg:psql
 
 CREATE TABLE users (
     id SERIAL,

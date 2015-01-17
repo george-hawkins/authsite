@@ -1,4 +1,4 @@
--- cat create-users.ddl | heroku pg:psql
+-- cat create-users.sql | heroku pg:psql
 
 INSERT INTO roles (rolename) VALUES
     ('user'),
