@@ -17,19 +17,11 @@
         <jetty.version>9.2.6.v20141205</jetty.version>
         <guice.version>3.0</guice.version>
         <postgresql.version>9.3-1102-jdbc41</postgresql.version>
+        <guava.version>18.0</guava.version>
     </properties>
 
     <dependencies>
-        <!--
-            jetty-runner is only included so it can be invoked in Eclipse.
-            When running via jetty-runner it provides the other jetty jars.
-        -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-runner</artifactId>
-            <version>${jetty.version}</version>
-            <scope>provided</scope>
-        </dependency>
+        <!-- Jetty jars that aren't explicitly used by the webapp can be marked as provided and jetty-runner will provide them. -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
@@ -47,6 +39,12 @@
             <artifactId>jetty-annotations</artifactId>
             <version>${jetty.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <!-- The webapp uses org.eclipse.jetty.util.security.Credential.Crypt -->
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -72,7 +70,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>18.0</version>
+            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -98,6 +96,24 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <!-- Wrap AppendHerokuDbProperties etc. into a jar that will be used as an additional dependency below. -->
+                        <goals><goal>jar</goal></goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <classifier>bootstrap</classifier>
+                            <includes>
+                                <include>**/util/*</include>
+                                <include>**/heroku/*</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.9</version>
                 <executions>
@@ -118,6 +134,19 @@
                                     <version>${jetty.version}</version>
                                     <destFileName>jetty-runner.jar</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.google.guava</groupId>
+                                    <artifactId>guava</artifactId>
+                                    <version>${guava.version}</version>
+                                    <destFileName>guava.jar</destFileName>
+                                </artifactItem>
+                                <dependency>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <groupId>${project.groupId}</groupId>
+                                    <classifier>bootstrap</classifier>
+                                    <version>${project.version}</version>
+                                    <destFileName>${project.artifactId}-bootstrap.jar</destFileName>
+                                </dependency>
                             </artifactItems>
                         </configuration>
                     </execution>

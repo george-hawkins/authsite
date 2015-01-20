@@ -18,11 +18,6 @@ public class UserService {
     }
     
     @Transactional
-    public void insertUser(User user) {
-        userMapper.insertUser(user);
-    }
-
-    @Transactional
     public User getUserById(Integer userId) {
         return userMapper.getUserById(userId);
     }
@@ -33,12 +28,19 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(User user) {
-        userMapper.updateUser(user);
+    public void createUser(User user) {
+        userMapper.createUser(user);
+        userMapper.createUserRole(user.getId());
+    }
+
+    @Transactional
+    public void modifyUser(User user) {
+        userMapper.modifyUser(user);
     }
 
     @Transactional
     public void deleteUser(Integer userId) {
         userMapper.deleteUser(userId);
+        userMapper.deleteUserRole(userId);
     }
 }

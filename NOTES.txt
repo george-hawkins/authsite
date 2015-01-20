@@ -5,7 +5,7 @@ $ cat create-users.ddl | heroku pg:psql
 
 To build:
 
-$ mvn clean package
+$ mvn --quiet package -DskipTests
 
 To run:
 

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>User Manager</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+</style>
+  </head>
+
+  <body>
+
+    <div class="container">
+
+    <!-- =========================================================== -->
+
+<div class="jumbotron">
+    <h1>User Manager</h1>
+    <p>On this page you can create new users and modify existing ones.</p>
+</div>
+
+<form method="POST">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Existing Users</h3>
+    </div>
+    <div class="panel-body">
+        <p>Delete or modify existing users.</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody id="users">
+        USER_ROWS
+    </tbody>
+</table>
+
+        <p>
+            <a id="modify" href="#" class="btn btn-default">Modify</a>
+            <button type="submit" class="btn btn-danger" name="operation" value="delete">Delete</button>
+        </p>
+    </div>
+</div>
+</form>
+
+<form class="form-horizontal" method="POST">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">New User</h3>
+    </div>
+    <div class="panel-body">
+        <p>Create a new user.</p>
+
+        <div class="form-group">
+            <label for="fullName" class="col-sm-2 control-label">Full Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="fullName" placeholder="Full name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" name="email" placeholder="Email">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">Username</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="username" placeholder="Username">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" name="password" placeholder="Password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword" class="col-sm-2 control-label">Confirm Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" name="operation" value="create">Create</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</form>
+
+    <!-- =========================================================== -->
+
+    </div><!-- /.container -->
+
+    <footer class="bs-docs-footer">
+        <div class="container">
+            Copyright &copy; 2015 George C. Hawkins.
+        </div>
+    </footer>
+
+<form class="form-horizontal" method="POST">
+    <div id="modify-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modify User</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="username" class="col-sm-2 control-label">Username</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" name="id">
+                            <p class="form-control-static" class="x-username"><!-- username --></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName" class="col-sm-2 control-label">Full Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="fullName">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" name="email" placeholder="Email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="password">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="col-sm-2 control-label">Confirm Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="confirmPassword">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" name="operation" value="modify">Modify</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+<script>
+    var UNCHANGED = "-unchanged-";
+
+    $('#modify').click(function (e) {
+        e.preventDefault();
+
+        var checked = $('#users input:checked');
+
+        if (checked.length > 0) {
+            var row = checked.first().closest('tr');
+
+            var id = row.find('input[name=id]').attr('value');
+            var username = row.find('.x-username').text();
+            var fullName = row.find('.x-fullName').text();
+            var email = row.find('.x-email').text();
+
+            var modal = $('#modify-modal');
+
+            modal.find('input[name=id]').val(id);
+            modal.find('.x-username').text(username);
+            modal.find('input[name=fullName]').val(fullName);
+            modal.find('input[name=email]').val(email);
+            modal.find('input[name=password]').val(UNCHANGED);
+            modal.find('input[name=confirmPassword]').val(UNCHANGED);
+            modal.modal('show');
+        } else {
+            alert('You must select a user first.');
+        }
+    });
+</script>
+
+  </body>
+</html>

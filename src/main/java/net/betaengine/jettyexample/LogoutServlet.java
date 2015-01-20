@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LogoutServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.logout();
+        request.getSession().invalidate();
         response.sendRedirect("/public-alpha.html"); // Where to go after logout.
     }
 }

@@ -27,7 +27,7 @@ public class MyGuiceServletConfig extends GuiceServletContextListener {
         return new ServletModule() {
             @Override
             protected void configureServlets() {
-              serve("/db").with(SimpleServlet.class);
+                serve("/users").with(UserManagerServlet.class);
             }
         };
     }

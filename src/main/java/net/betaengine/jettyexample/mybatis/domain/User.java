@@ -1,54 +1,47 @@
 package net.betaengine.jettyexample.mybatis.domain;
 
+import com.google.common.base.MoreObjects;
+
 public class User {
-    private Integer userId;
-    private String emailId;
+    private Integer id;
+    private String username;
     private String password;
-    private String firstName;
-    private String lastName;
+    private String fullName;
+    private String email;
 
-    public Integer getUserId() {
-        return userId;
-    }
+    public Integer getId() { return id; }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+    public void setId(Integer id) { this.id = id; }
 
-    public String getEmailId() {
-        return emailId;
-    }
+    public String getUsername() { return username; }
 
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
+    public void setUsername(String username) { this.username = username; }
 
-    public String getPassword() {
-        return password;
-    }
+    public String getPassword() { return password; }
 
     public void setPassword(String password) {
+        if (!password.startsWith("CRYPT:")) {
+            throw new IllegalArgumentException("non-CRYPT passwords are not allowed");
+        }
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFullName() { return fullName; }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getEmail() { return email; }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     @Override
     public String toString() {
-        return "User [userId=" + userId + ", emailId=" + emailId + ", password=" + password + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("username", username)
+                .add("password", password)
+                .add("fullName", fullName)
+                .add("email", email)
+                .toString();
     }
 }

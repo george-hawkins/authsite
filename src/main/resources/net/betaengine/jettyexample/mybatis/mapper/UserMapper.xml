@@ -3,45 +3,43 @@
 <mapper namespace="net.betaengine.jettyexample.mybatis.mapper.UserMapper">
 
     <select id="getUserById" resultType="User">
-        SELECT 
-            user_id as userId, 
-            email_id as emailId , 
-            password, 
-            first_name as firstName, 
-            last_name as lastName
-        FROM USERS 
-        WHERE USER_ID = #{userId}
+        SELECT *
+        FROM users 
+        WHERE id = #{id}
     </select>
 
-    <!-- Above we use 'AS' to rename columns so MyBatis knows how to map things, here we use a resultMap. -->
-    <!--  Instead of using FQNs for classes we can register aliases when creating the MyBatisModule. -->
-    <resultMap type="User" id="UserResult">
-        <id property="userId" column="user_id"/>
-        <result property="emailId" column="email_id"/>
-        <result property="password" column="password"/>
-        <result property="firstName" column="first_name"/>
-        <result property="lastName" column="last_name"/>
-    </resultMap>
-    <select id="getAllUsers" resultMap="UserResult">
+    <select id="getAllUsers" resultType="User">
         SELECT * FROM USERS
+        ORDER BY username
     </select>
 
-    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO USERS(email_id, password, first_name, last_name)
-        VALUES(#{emailId}, #{password}, #{firstName}, #{lastName})
+    <insert id="createUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password, fullName, email)
+        VALUES(#{username}, #{password}, #{fullName}, #{email})
     </insert>
 
-    <update id="updateUser">
-        UPDATE USERS 
+    <insert id="createUserRole">
+        INSERT INTO user_roles (user_id, role_id)
+        SELECT #{id}, roles.id
+        FROM roles
+        WHERE roles.rolename = 'user';
+    </insert>
+
+    <update id="modifyUser">
+        UPDATE users 
         SET
-            PASSWORD= #{password},
-            FIRST_NAME = #{firstName},
-            LAST_NAME = #{lastName}
-        WHERE USER_ID = #{userId}
+            fullName = #{fullName},
+            email = #{email},
+            password = #{password}
+        WHERE id = #{id}
     </update>
 
     <delete id="deleteUser">
-        DELETE FROM USERS WHERE USER_ID = #{userId}
+        DELETE FROM users WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteUserRole">
+        DELETE FROM user_roles WHERE user_id = #{id}
     </delete>
 
 </mapper>
