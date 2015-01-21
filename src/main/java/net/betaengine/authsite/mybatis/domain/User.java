@@ -1,4 +1,4 @@
-package net.betaengine.jettyexample.mybatis.domain;
+package net.betaengine.authsite.mybatis.domain;
 
 import com.google.common.base.MoreObjects;
 

@@ -53,7 +53,7 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>net.betaengine.jettyexample.MyGuiceServletConfig</listener-class>
+        <listener-class>net.betaengine.authsite.MyGuiceServletConfig</listener-class>
     </listener>
 
 </web-app>

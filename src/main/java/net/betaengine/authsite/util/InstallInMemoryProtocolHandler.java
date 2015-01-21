@@ -1,6 +1,6 @@
-package net.betaengine.jettyexample.util;
+package net.betaengine.authsite.util;
 
-import static net.betaengine.jettyexample.util.Util.unchecked;
+import static net.betaengine.authsite.util.Util.unchecked;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;

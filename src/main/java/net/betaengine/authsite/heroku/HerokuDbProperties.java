@@ -1,9 +1,9 @@
-package net.betaengine.jettyexample.heroku;
+package net.betaengine.authsite.heroku;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.betaengine.jettyexample.util.Util;
+import net.betaengine.authsite.util.Util;
 
 /** Create JDBC URL and retrieve username and password from Heroku DATABASE_URL environment variable. */
 public class HerokuDbProperties {

@@ -1,8 +1,8 @@
-package net.betaengine.jettyexample.mybatis.mapper;
+package net.betaengine.authsite.mybatis.mapper;
 
 import java.util.List;
 
-import net.betaengine.jettyexample.mybatis.domain.User;
+import net.betaengine.authsite.mybatis.domain.User;
 
 public interface UserMapper {
 

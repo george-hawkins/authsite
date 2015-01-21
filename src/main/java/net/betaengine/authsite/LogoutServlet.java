@@ -1,4 +1,4 @@
-package net.betaengine.jettyexample;
+package net.betaengine.authsite;
 
 import java.io.IOException;
 

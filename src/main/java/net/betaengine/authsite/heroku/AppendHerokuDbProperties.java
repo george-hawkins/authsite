@@ -1,4 +1,4 @@
-package net.betaengine.jettyexample.heroku;
+package net.betaengine.authsite.heroku;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import net.betaengine.jettyexample.util.InstallInMemoryProtocolHandler.InMemoryURLStreamHandlerFactory.InMemoryURLConnection;
+import net.betaengine.authsite.util.InstallInMemoryProtocolHandler.InMemoryURLStreamHandlerFactory.InMemoryURLConnection;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;

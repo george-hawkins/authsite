@@ -26,7 +26,7 @@
         </Call>
     </Set>
 
-    <Call name="addLifeCycleListener"><Arg><New class="net.betaengine.jettyexample.util.InstallInMemoryProtocolHandler"/></Arg></Call>
+    <Call name="addLifeCycleListener"><Arg><New class="net.betaengine.authsite.util.InstallInMemoryProtocolHandler"/></Arg></Call>
 
     <Get name="securityHandler">
         <Set name="loginService">
@@ -36,7 +36,7 @@
                      If not using Heroku the DB properties can all simply be specified in a standard properties file.
                      <Set name="config">src/main/config/etc/jdbcRealm.properties</Set>
                 -->
-                <Set name="config">class:net.betaengine.jettyexample.heroku.AppendHerokuDbProperties?path=src/main/config/etc/jdbcRealm.properties</Set>
+                <Set name="config">class:net.betaengine.authsite.heroku.AppendHerokuDbProperties?path=src/main/config/etc/jdbcRealm.properties</Set>
             </New>
         </Set>
         <Set name="authenticator">

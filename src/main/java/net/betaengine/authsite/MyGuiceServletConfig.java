@@ -1,10 +1,10 @@
-package net.betaengine.jettyexample;
+package net.betaengine.authsite;
 
 import java.util.Properties;
 
-import net.betaengine.jettyexample.heroku.HerokuDbProperties;
-import net.betaengine.jettyexample.mybatis.domain.User;
-import net.betaengine.jettyexample.mybatis.mapper.UserMapper;
+import net.betaengine.authsite.heroku.HerokuDbProperties;
+import net.betaengine.authsite.mybatis.domain.User;
+import net.betaengine.authsite.mybatis.mapper.UserMapper;
 
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.guice.MyBatisModule;

@@ -1,11 +1,11 @@
-package net.betaengine.jettyexample.mybatis.service;
+package net.betaengine.authsite.mybatis.service;
 
 import java.util.List;
 
 import org.mybatis.guice.transactional.Transactional;
 
-import net.betaengine.jettyexample.mybatis.domain.User;
-import net.betaengine.jettyexample.mybatis.mapper.UserMapper;
+import net.betaengine.authsite.mybatis.domain.User;
+import net.betaengine.authsite.mybatis.mapper.UserMapper;
 
 import com.google.inject.Inject;
 

@@ -1,6 +1,6 @@
-package net.betaengine.jettyexample;
+package net.betaengine.authsite;
 
-import static net.betaengine.jettyexample.util.Util.unchecked;
+import static net.betaengine.authsite.util.Util.unchecked;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.betaengine.jettyexample.mybatis.domain.User;
-import net.betaengine.jettyexample.mybatis.service.UserService;
-import net.betaengine.jettyexample.util.Util;
+import net.betaengine.authsite.mybatis.domain.User;
+import net.betaengine.authsite.mybatis.service.UserService;
+import net.betaengine.authsite.util.Util;
 
 import org.eclipse.jetty.util.security.Credential;
 import org.slf4j.Logger;

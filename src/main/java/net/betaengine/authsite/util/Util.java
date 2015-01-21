@@ -1,4 +1,4 @@
-package net.betaengine.jettyexample.util;
+package net.betaengine.authsite.util;
 
 import java.util.Arrays;
 import java.util.List;

@@ -97,7 +97,7 @@ DB connection properties
 
 I read the DB connection properties from the Heroku DATABASE_URL environment variable.
 
-See HerokuDbProperties and net.betaengine.jettyexample.MyGuiceServletConfig.createProperties().
+See HerokuDbProperties and net.betaengine.authsite.MyGuiceServletConfig.createProperties().
 
 If not using Heroku then you should be using the JdbcHelper enum - see http://mybatis.github.io/guice/jdbc-helper.html
 
