@@ -4,7 +4,7 @@
 <Configure class="org.eclipse.jetty.webapp.WebAppContext">
 
     <Set name="contextPath">/</Set>
-    <Set name="war">target/jetty-auth.war</Set>
+    <Set name="war">target/authsite.war</Set>
 
     <!--
     By default Configuration.ClassList contains just the configurations in WebAppContext.DEFAULT_CONFIGURATION_CLASSES.

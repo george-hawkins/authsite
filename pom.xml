@@ -3,8 +3,8 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.betaengine.demo</groupId>
-    <artifactId>jetty-auth</artifactId>
+    <groupId>net.betaengine</groupId>
+    <artifactId>authsite</artifactId>
     <packaging>war</packaging>
 
     <version>0.1-SNAPSHOT</version>
