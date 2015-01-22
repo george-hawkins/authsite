@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,19 +13,27 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-<style>
-/* Space out content a bit */
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-</style>
-  </head>
 
-  <body>
+    <style>
+    body {
+        padding-top: 70px; /* http://getbootstrap.com/components/#callout-navbar-fixed-top-padding */
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">AuthSite</a>
+            </div>
+        </div>
+    </nav>
 
     <div class="container">
 
@@ -125,7 +134,7 @@ body {
     <hr>
     <footer>
         <div class="container">
-            Copyright &copy; 2015 George C. Hawkins.
+            &copy; 2015 George C. Hawkins.
         </div>
     </footer>
 
@@ -187,40 +196,40 @@ body {
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-<script>
-    (function ($) {
-        var UNCHANGED = "-unchanged-";
+    <script>
+        (function ($) {
+            var UNCHANGED = "-unchanged-";
 
-        $('#modify').click(function (e) {
-            e.preventDefault();
+            $('#modify').click(function (e) {
+                e.preventDefault();
 
-            var checked = $('#users input:checked');
+                var checked = $('#users input:checked');
 
-            if (checked.length > 0) {
-                var row = checked.first().closest('tr');
+                if (checked.length > 0) {
+                    var row = checked.first().closest('tr');
 
-                var id = row.find('input[name=id]').attr('value');
-                var username = row.find('.x-username').text();
-                var fullName = row.find('.x-fullName').text();
-                var email = row.find('.x-email').text();
+                    var id = row.find('input[name=id]').attr('value');
+                    var username = row.find('.x-username').text();
+                    var fullName = row.find('.x-fullName').text();
+                    var email = row.find('.x-email').text();
 
-                var modal = $('#modify-modal');
+                    var modal = $('#modify-modal');
 
-                modal.find('input[name=id]').val(id);
-                modal.find('.x-username').text(username);
-                modal.find('input[name=fullName]').val(fullName);
-                modal.find('input[name=email]').val(email);
-                modal.find('input[name=password]').val(UNCHANGED);
-                modal.find('input[name=confirmPassword]').val(UNCHANGED);
-                modal.modal('show');
-            } else {
-                alert('You must select a user first.');
-            }
-        });
-    })(jQuery);
-</script>
+                    modal.find('input[name=id]').val(id);
+                    modal.find('.x-username').text(username);
+                    modal.find('input[name=fullName]').val(fullName);
+                    modal.find('input[name=email]').val(email);
+                    modal.find('input[name=password]').val(UNCHANGED);
+                    modal.find('input[name=confirmPassword]').val(UNCHANGED);
+                    modal.modal('show');
+                } else {
+                    alert('You must select a user first.');
+                }
+            });
+        })(jQuery);
+    </script>
 
   </body>
 </html>
