@@ -22,6 +22,11 @@ Check the value is as expected:
 $ echo 'SELECT * FROM users' | heroku pg:psql
 ```
 
+Creating new users
+------------------
+
+The admin user can create new users (with the role `user`) using the page `/users`.
+
 Password handling
 -----------------
 
@@ -73,6 +78,11 @@ See:
     http://stackoverflow.com/a/15973954/245602
 
 Some/most errors probably shouldn't be propagated as exceptions to the web user and should be better handled in the code.
+
+Favicon
+-------
+
+The favicon is currently a black and white image of a question mark in a box and was generated using favicon generator as per [SO](http://stackoverflow.com/a/19590415/245602).
 
 Page generations
 ----------------
