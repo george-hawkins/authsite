@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Sign in</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+    body {
+        padding-top: 90px;
+        /* Use 90px for pages where the content is small and the contrast with the footer gap is too obvious.
+         * Use 70px for all other pages - http://getbootstrap.com/components/#callout-navbar-fixed-top-padding
+         */
+    }
+    </style>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">AuthSite</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+    <!-- =========================================================== -->
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            <div id="credentials-alert" class="alert alert-danger alert-dismissible hidden" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                Incorrect username or password.
+            </div>
+
+            <form method="POST" action="j_security_check">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Sign in</h3>
+                    </div>
+                    <div class="panel-body">
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input tabindex="1" autofocus type="text" class="form-control" id="username" name="j_username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <!-- Without the tabindex attributes the 'forgot password' link is included in the tab order. -->
+                        <label for="password">Password (<a href="mailto:siteowner?subject=Forgot Password">forgot password</a>)</label>
+                        <input tabindex="2" type="password" class="form-control" id="password" name="j_password" placeholder="Password">
+                    </div>
+                        <button tabindex="3" type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+    <!-- =========================================================== -->
+
+    </div><!-- /.container -->
+
+    <hr>
+    <footer>
+        <div class="container">
+            &copy; 2015 George C. Hawkins.
+        </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        // http://stackoverflow.com/a/8764051/245602
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+        }
+
+        (function ($) {
+            if (getURLParameter('success') === 'false') {
+                $('#credentials-alert').removeClass('hidden');
+            }
+        })(jQuery);
+    </script>
+
+</body>
+</html>

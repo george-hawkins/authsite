@@ -14,6 +14,6 @@ public class LogoutServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.getSession().invalidate();
-        response.sendRedirect("/public-alpha.html"); // Where to go after logout.
+        response.sendRedirect("/"); // Where to go after logout.
     }
 }

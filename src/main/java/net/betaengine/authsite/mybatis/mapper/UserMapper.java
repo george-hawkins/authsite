@@ -6,17 +6,19 @@ import net.betaengine.authsite.mybatis.domain.User;
 
 public interface UserMapper {
 
-    public User getUserById(Integer userId);
+    public User getUserById(int userId);
+
+    public User getUserByUsername(String username);
 
     public List<User> getAllUsers();
 
     public void createUser(User user);
     
-    public void createUserRole(Integer userId);
+    public void createUserRole(int userId);
 
-    public void deleteUserRole(Integer userId);
+    public void deleteUserRole(int userId);
 
     public void modifyUser(User user);
 
-    public void deleteUser(Integer userId);
+    public void deleteUser(int userId);
 }

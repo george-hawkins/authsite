@@ -8,11 +8,11 @@
     <title>User Manager</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <style>
@@ -76,35 +76,35 @@ body {
         <div class="form-group">
             <label for="fullName" class="col-sm-2 control-label">Full Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="fullName" placeholder="Full name">
+                <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full name">
             </div>
         </div>
 
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" name="email" placeholder="Email">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
             </div>
         </div>
 
         <div class="form-group">
             <label for="username" class="col-sm-2 control-label">Username</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="username" placeholder="Username">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
             </div>
         </div>
 
         <div class="form-group">
             <label for="password" class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" name="password" placeholder="Password">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
             </div>
         </div>
 
         <div class="form-group">
             <label for="confirmPassword" class="col-sm-2 control-label">Confirm Password</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password">
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
             </div>
         </div>
 
@@ -122,7 +122,8 @@ body {
 
     </div><!-- /.container -->
 
-    <footer class="bs-docs-footer">
+    <hr>
+    <footer>
         <div class="container">
             Copyright &copy; 2015 George C. Hawkins.
         </div>
@@ -139,7 +140,7 @@ body {
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="username" class="col-sm-2 control-label">Username</label>
+                        <label class="col-sm-2 control-label">Username</label>
                         <div class="col-sm-10">
                             <input type="hidden" class="form-control" name="id">
                             <p class="form-control-static" class="x-username"><!-- username --></p>
@@ -149,28 +150,28 @@ body {
                     <div class="form-group">
                         <label for="fullName" class="col-sm-2 control-label">Full Name</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="fullName">
+                            <input type="text" class="form-control" id="fullName" name="fullName">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="email" class="col-sm-2 control-label">Email</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" name="email" placeholder="Email">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="password" class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" name="password">
+                            <input type="password" class="form-control" id="password" name="password">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="confirmPassword" class="col-sm-2 control-label">Confirm Password</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" name="confirmPassword">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
                         </div>
                     </div>
                 </div>
@@ -185,38 +186,40 @@ body {
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
 <script>
-    var UNCHANGED = "-unchanged-";
+    (function ($) {
+        var UNCHANGED = "-unchanged-";
 
-    $('#modify').click(function (e) {
-        e.preventDefault();
+        $('#modify').click(function (e) {
+            e.preventDefault();
 
-        var checked = $('#users input:checked');
+            var checked = $('#users input:checked');
 
-        if (checked.length > 0) {
-            var row = checked.first().closest('tr');
+            if (checked.length > 0) {
+                var row = checked.first().closest('tr');
 
-            var id = row.find('input[name=id]').attr('value');
-            var username = row.find('.x-username').text();
-            var fullName = row.find('.x-fullName').text();
-            var email = row.find('.x-email').text();
+                var id = row.find('input[name=id]').attr('value');
+                var username = row.find('.x-username').text();
+                var fullName = row.find('.x-fullName').text();
+                var email = row.find('.x-email').text();
 
-            var modal = $('#modify-modal');
+                var modal = $('#modify-modal');
 
-            modal.find('input[name=id]').val(id);
-            modal.find('.x-username').text(username);
-            modal.find('input[name=fullName]').val(fullName);
-            modal.find('input[name=email]').val(email);
-            modal.find('input[name=password]').val(UNCHANGED);
-            modal.find('input[name=confirmPassword]').val(UNCHANGED);
-            modal.modal('show');
-        } else {
-            alert('You must select a user first.');
-        }
-    });
+                modal.find('input[name=id]').val(id);
+                modal.find('.x-username').text(username);
+                modal.find('input[name=fullName]').val(fullName);
+                modal.find('input[name=email]').val(email);
+                modal.find('input[name=password]').val(UNCHANGED);
+                modal.find('input[name=confirmPassword]').val(UNCHANGED);
+                modal.modal('show');
+            } else {
+                alert('You must select a user first.');
+            }
+        });
+    })(jQuery);
 </script>
 
   </body>

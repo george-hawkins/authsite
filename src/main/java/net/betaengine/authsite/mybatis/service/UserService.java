@@ -18,8 +18,13 @@ public class UserService {
     }
     
     @Transactional
-    public User getUserById(Integer userId) {
+    public User getUserById(int userId) {
         return userMapper.getUserById(userId);
+    }
+    
+    @Transactional
+    public User getUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
     }
 
     @Transactional
@@ -39,7 +44,7 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(Integer userId) {
+    public void deleteUser(int userId) {
         userMapper.deleteUser(userId);
         userMapper.deleteUserRole(userId);
     }

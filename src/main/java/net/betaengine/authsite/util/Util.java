@@ -1,5 +1,7 @@
 package net.betaengine.authsite.util;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +9,8 @@ import java.util.stream.Collectors;
 
 import javax.servlet.ServletRequest;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.google.common.collect.ImmutableList;
 
 public class Util {
@@ -21,6 +25,28 @@ public class Util {
         }
     }
     
+    @FunctionalInterface
+    public interface JsonAsStringFunction {
+        void accept(JsonGenerator generator) throws IOException;
+    }
+    
+    public static String generateJsonAsString(JsonAsStringFunction mapper) {
+        try {
+            StringWriter writer = new StringWriter();
+            JsonFactory factory = new JsonFactory();
+            JsonGenerator generator = factory.createGenerator(writer);
+            generator.writeStartObject();
+            mapper.accept(generator);
+            generator.writeEndObject();
+            generator.close();
+            
+            return writer.toString();
+        } catch (IOException e) {
+            // IO exceptions shouldn't occur as all actions are in-memory.
+            throw Util.unchecked(e);
+        }
+    }
+
     public static String getMandatoryEnv(String name) {
         return Optional.ofNullable(System.getenv(name))
         .orElseThrow(() -> new MandatoryEnvException(name + " not present"));

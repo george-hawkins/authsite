@@ -8,6 +8,12 @@
         WHERE id = #{id}
     </select>
 
+    <select id="getUserByUsername" resultType="User">
+        SELECT *
+        FROM users 
+        WHERE username = #{username}
+    </select>
+
     <select id="getAllUsers" resultType="User">
         SELECT * FROM USERS
         ORDER BY username
