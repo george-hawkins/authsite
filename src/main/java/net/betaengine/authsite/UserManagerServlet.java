@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +21,7 @@ import org.eclipse.jetty.util.security.Credential;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.html.HtmlEscapers;
 import com.google.common.io.Resources;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -67,9 +69,14 @@ public class UserManagerServlet extends HttpServlet {
         List<User> users = userService.getAllUsers();
         StringBuilder builder = new StringBuilder();
         
-        users.forEach(user -> builder.append(String.format(USER_ROW, user.getId(), user.getUsername(), user.getFullName(), user.getEmail())));
+        users.forEach(user -> builder.append(String.format(USER_ROW,
+                user.getId(), escape(user.getUsername()), escape(user.getFullName()), escape(user.getEmail()))));
         
         return PAGE_TEMPLATE.replace("USER_ROWS", builder.toString());
+    }
+    
+    private String escape(String s) {
+        return s != null ? HtmlEscapers.htmlEscaper().escape(s) : "";
     }
 
     private void performOperation(HttpServletRequest request, String operation) {
@@ -90,7 +97,7 @@ public class UserManagerServlet extends HttpServlet {
     
     private void createUser(HttpServletRequest request) {
         String fullName = Util.getMandatoryParameter(request, "fullName");
-        String email = request.getParameter("email");
+        Optional<String> email = Util.getOptionalParameter(request, "email");
         String username = Util.getMandatoryParameter(request, "username");
         String password = Util.getMandatoryParameter(request, "password");
         String confirmPassword = Util.getMandatoryParameter(request, "confirmPassword");
@@ -102,7 +109,7 @@ public class UserManagerServlet extends HttpServlet {
         User user = new User();
         
         user.setFullName(fullName);
-        user.setEmail(email);
+        email.ifPresent(user::setEmail);
         user.setUsername(username);
         
         setPassword(user, username, password);
@@ -113,7 +120,7 @@ public class UserManagerServlet extends HttpServlet {
     private void modifyUser(HttpServletRequest request) {
         int id = Integer.parseInt(Util.getMandatoryParameter(request, "id"));
         String fullName = Util.getMandatoryParameter(request, "fullName");
-        String email = request.getParameter("email");
+        Optional<String> email = Util.getOptionalParameter(request, "email");
         String password = Util.getMandatoryParameter(request, "password");
         String confirmPassword = Util.getMandatoryParameter(request, "confirmPassword");
 
@@ -124,7 +131,7 @@ public class UserManagerServlet extends HttpServlet {
         User user = userService.getUserById(id);
         
         user.setFullName(fullName);
-        user.setEmail(email);
+        email.ifPresent(user::setEmail);
         
         if (!password.equals(UNCHANGED_PASSWORD)) {
             setPassword(user, user.getUsername(), password);

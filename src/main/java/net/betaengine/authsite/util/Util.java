@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.ServletRequest;
 
@@ -61,12 +62,9 @@ public class Util {
         return getMandatoryParameterValues(request, name).get(0);
     }
 
-    /** Returns all trimmed non-empty parameters with the given name and throws an exception if there are none. */
+    /** Returns all trimmed non-empty parameter values with the given name and throws an exception if there are none. */
     public static List<String> getMandatoryParameterValues(ServletRequest request, String name) {
-        List<String> result = getParameterValues(request, name).stream()
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
+        List<String> result = getParameterValues(request, name);
         
         if (result.isEmpty()) {
             throw new MissingParameterException(name);
@@ -75,9 +73,19 @@ public class Util {
         return result;
     }
     
-    /** Unlike ServletRequest.getParameterValues(String) this method returns an empty list if the parameter isn't present. */
+    /** Returns the first trimmed non-empty parameter value with the given name. */
+    public static Optional<String> getOptionalParameter(ServletRequest request, String name) {
+        return getParameterValues(request, name).stream().findFirst();
+    }
+    
+    /** Returns all trimmed non-empty parameter values with the given name and returns an empty list if there are none. */
     public static List<String> getParameterValues(ServletRequest request, String name) {
-        return Optional.ofNullable(request.getParameterValues(name)).map(Arrays::asList).orElse(ImmutableList.of());
+        return Optional.ofNullable(request.getParameterValues(name))
+                .map(Arrays::stream)
+                .orElse(Stream.empty())
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
     }
 
     @SuppressWarnings("serial")

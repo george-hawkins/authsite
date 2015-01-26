@@ -3,19 +3,29 @@
 // It queries the service at '/userStatus' and creates either a login link or the user's name and a logout link.
 //
 (function ($) {
-    var userTag = $('#nav-user-status');
+    var loginTag = $('#nav-user-login');
 
-    function setupUserTag(link, t) {
-        $('<a/>').prop('href', link).text(t).appendTo(userTag);
+    function unhide(tag) {
+        tag.removeClass('hidden');
+        return tag;
+    }
+
+    function setupLoginTag(link, t) {
+        unhide(loginTag).find('a').prop('href', link).text(t);
     }
 
     $.getJSON('/userStatus', function(data) {
         if (data.isLoggedIn) {
-            setupUserTag('/logout', 'Sign out');
-            $('<li/>').addClass('navbar-text').text(data.fullName).insertBefore(userTag);
+            unhide($('#nav-user-name')).find('a').text(data.fullName);
+            setupLoginTag('/logout', 'Sign out');
         } else {
-            setupUserTag('/login.html', 'Sign in');
+            var isLoginPage = $('form[action=j_security_check').length != 0;
+
+            if (isLoginPage) {
+                loginTag.addClass('active');
+            }
+
+            setupLoginTag('/login.html', 'Sign in');
         }
-        userTag.removeClass('hidden');
     });
 })(jQuery);
