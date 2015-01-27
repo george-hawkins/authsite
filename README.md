@@ -37,7 +37,7 @@ $ DATABASE_URL="$DATABASE_URL?ssl=true&sslfactory=org.postgresql.ssl.NonValidati
 $ java -cp 'target/dependency/*' org.eclipse.jetty.runner.Runner src/main/config/etc/root-context.xml
 ```
 
-Note: using `jar -jar .../jetty-runner.jar ...` doesn't work here as `-jar` only honours the classpath in the specified jar's manifest and we want to add the DB driver jar.
+Note: using `java -jar .../jetty-runner.jar ...` doesn't work here as `-jar` only honors the classpath in the specified jar's manifest and we want to add the DB driver jar.
 
 Admin user
 ----------
@@ -59,7 +59,7 @@ Check the value is as expected:
 $ echo 'SELECT * FROM users' | heroku pg:psql
 ```
 
-The admin user can create new users (with the role `user`) using the page `/users`.
+The admin user can now create additional users (with the role `user`) using the page `/users`.
 
 Password handling
 -----------------
@@ -154,8 +154,8 @@ Favicon
 
 The favicon is currently a black and white image of a question mark in a box and was generated using favicon generator as per [SO](http://stackoverflow.com/a/19590415/245602).
 
-Page generations
-----------------
+Page generation
+---------------
 
 Currently any page generation is handled through basic string manipulation without the help of any templating library or such like.
 
