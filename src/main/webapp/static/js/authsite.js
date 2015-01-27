@@ -17,7 +17,13 @@
 
         $.getJSON('/userStatus', function(data) {
             if (data.isLoggedIn) {
-                unhide($('#nav-user-name')).find('a').text(data.fullName);
+                var userNameTag = unhide($('#nav-user-name'));
+
+                if (window.location.pathname === '/userSettings') {
+                    userNameTag.addClass('active');
+                }
+
+                userNameTag.find('a').text(data.fullName);
                 setupLoginTag('/logout', 'Sign out');
             } else {
                 var isLoginPage = $('form[action=j_security_check').length != 0;
