@@ -25,7 +25,7 @@ public class UserSettingsServlet extends AbstractUserServlet {
     
     @Override
     public void init() {
-        pageTemplate = getTemplate("user-settings-template.html");
+        pageTemplate = getTemplate("user-settings.html");
     }
     
     @Override

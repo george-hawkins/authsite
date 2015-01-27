@@ -30,7 +30,7 @@ public class UserManagerServlet extends AbstractUserServlet {
     
     @Override
     public void init() {
-        pageTemplate = getTemplate("user-manager-template.html");
+        pageTemplate = getTemplate("user-manager.html");
     }
     
     @Override
