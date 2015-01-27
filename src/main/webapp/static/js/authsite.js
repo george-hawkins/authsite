@@ -26,7 +26,7 @@
                     loginTag.addClass('active');
                 }
 
-                setupLoginTag('/login.html', 'Sign in');
+                setupLoginTag('/private/', 'Sign in');
             }
         });
     }
