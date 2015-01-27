@@ -5,7 +5,9 @@ import static net.betaengine.authsite.util.Util.unchecked;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +32,7 @@ public abstract class AbstractUserServlet extends HttpServlet {
     private final static String UNCHANGED_PASSWORD = "-unchanged-";
     
     protected final UserService userService;
+    private final Map<String, Consumer<HttpServletRequest>> operations = createOperations();
     
     protected AbstractUserServlet(UserService userService) {
         this.userService = userService;
@@ -47,10 +50,11 @@ public abstract class AbstractUserServlet extends HttpServlet {
             
             if (operation == null) {
                 throw new UserManagerServletException("no operation specified");
+            } else if (!operations.containsKey(operation)) {
+                throw new UserManagerServletException("no handler for " + operation);
             }
-            else if (!performOperation(request, operation)) {
-                throw new UserManagerServletException("unhandled operation " + operation);
-            }
+            
+            operations.get(operation).accept(request);
 
             response.sendRedirect(request.getRequestURI() + "?success=true");
         } catch (Exception e) {
@@ -66,7 +70,7 @@ public abstract class AbstractUserServlet extends HttpServlet {
         return s != null ? HtmlEscapers.htmlEscaper().escape(s) : "";
     }
 
-    protected abstract boolean performOperation(HttpServletRequest request, String operation);
+    protected abstract Map<String, Consumer<HttpServletRequest>> createOperations();
     
     protected void setupUser(HttpServletRequest request, User user) {
         assert user.getUsername() != null;

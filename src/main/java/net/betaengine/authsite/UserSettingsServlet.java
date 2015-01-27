@@ -1,12 +1,15 @@
 package net.betaengine.authsite;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.servlet.http.HttpServletRequest;
 
 import net.betaengine.authsite.mybatis.domain.User;
 import net.betaengine.authsite.mybatis.service.UserService;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -30,13 +33,8 @@ public class UserSettingsServlet extends AbstractUserServlet {
     }
 
     @Override
-    protected boolean performOperation(HttpServletRequest request, String operation) {
-        if (operation.equals("modify")) {
-            modifyUser(request, getUser(request));
-            return true;
-        } else {
-            return false;
-        }
+    protected Map<String, Consumer<HttpServletRequest>> createOperations() {
+        return ImmutableMap.of("modify", request -> modifyUser(request, getUser(request)));
     }
     
     private User getUser(HttpServletRequest request) {

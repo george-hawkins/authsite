@@ -2,6 +2,8 @@ package net.betaengine.authsite;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +11,7 @@ import net.betaengine.authsite.mybatis.domain.User;
 import net.betaengine.authsite.mybatis.service.UserService;
 import net.betaengine.authsite.util.Util;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -36,22 +39,11 @@ public class UserManagerServlet extends AbstractUserServlet {
     }
 
     @Override
-    protected boolean performOperation(HttpServletRequest request, String operation) {
-        switch (operation) {
-        case "create":
-            createUser(request);
-            break;
-        case "modify":
-            modifyUser(request);
-            break;
-        case "delete":
-            deleteUser(request);
-            break;
-        default:
-            return false;
-        }
-        
-        return true;
+    protected Map<String, Consumer<HttpServletRequest>> createOperations() {
+        return ImmutableMap.of(
+                "create", this::createUser,
+                "modify", this::modifyUser,
+                "delete", this::deleteUser);
     }
     
     private void createUser(HttpServletRequest request) {
