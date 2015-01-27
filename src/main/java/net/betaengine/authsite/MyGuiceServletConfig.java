@@ -29,6 +29,7 @@ public class MyGuiceServletConfig extends GuiceServletContextListener {
             protected void configureServlets() {
                 serve("/users").with(UserManagerServlet.class);
                 serve("/userStatus").with(UserStatusServlet.class);
+                serve("/userSettings").with(UserSettingsServlet.class);
             }
         };
     }

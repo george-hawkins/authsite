@@ -25,6 +25,7 @@
     
     <security-constraint>
         <web-resource-collection>
+            <url-pattern>/userSettings</url-pattern>
             <url-pattern>/private/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>

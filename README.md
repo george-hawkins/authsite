@@ -38,6 +38,43 @@ Crypt uses the first two characters of the username as a salt (these can be seen
 
 See "[Traditional DES-based scheme](http://en.wikipedia.org/wiki/Crypt_%28C%29#Traditional_DES-based_scheme)" on Wikipedia for more information.
 
+Database backup
+---------------
+
+The database can be backed up on Heroku like so:
+
+```bash
+$ heroku pgbackups:capture --expire
+```
+
+The `--expire` causes the oldest existing backup to be expired. You can list the backups that Heroku is maintaining for you like so:
+
+```bash
+$ heroku pgbackups
+```
+
+Each backup is shown with an ID, to restore a particular one, e.g. with ID b001, do:
+
+```bash
+$ heroku pgbackups:restore DATABASE_URL b001
+```
+
+To retrieve a local copy of the latest backup do:
+
+```bash
+$ curl -o db.dump $(heroku pgbackups:url)
+```
+
+Restoring a locally stored backup isn't so simple - it first needs to be made available via a publicly accessable URL, e.g. a temporary Amazon S3 URL.
+
+Once this is done it can be restored like so:
+
+```bash
+$ heroku pgbackups:restore DATABASE 'https://s3.amazonaws.com/.../db.dump'
+```
+
+See Heroku's [pgbackups](https://devcenter.heroku.com/articles/pgbackups) and [import/export](https://devcenter.heroku.com/articles/heroku-postgres-import-export) pages for more details.
+
 SSL
 ---
 

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Sign in</title>
+    <title>User Settings</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -19,10 +19,7 @@
 
     <style>
     body {
-        padding-top: 90px;
-        /* Use 90px for pages where the content is small and the contrast with the footer gap is too obvious.
-         * Use 70px for all other pages - http://getbootstrap.com/components/#callout-navbar-fixed-top-padding
-         */
+        padding-top: 70px; /* http://getbootstrap.com/components/#callout-navbar-fixed-top-padding */
     }
     </style>
 
@@ -30,6 +27,13 @@
 
 <body>
 
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">AuthSite</a>
+            </div>
+        </div>
+    </nav>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -53,43 +57,67 @@
 
     <div class="container">
 
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+
     <!-- =========================================================== -->
 
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+<div id="settings-alert" class="alert alert-success alert-dismissible hidden" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    Your settings were successfully updated.
+</div>
 
-            <div id="credentials-alert" class="alert alert-danger alert-dismissible hidden" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                Incorrect username or password.
+<form class="form-horizontal" method="POST">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">User Settings</h3>
+    </div>
+    <div class="panel-body">
+
+        <div class="form-group">
+            <label for="fullName" class="col-sm-2 control-label">Full Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="fullName" name="fullName" value="FULL_NAME">
             </div>
+        </div>
 
-            <form method="POST" action="j_security_check">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Sign in</h3>
-                    </div>
-                    <div class="panel-body">
+        <div class="form-group">
+            <label for="email" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="EMAIL">
+            </div>
+        </div>
 
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input tabindex="1" autofocus type="text" class="form-control" id="username" name="j_username" placeholder="Username">
-                    </div>
-                    <div class="form-group">
-                        <!-- Without the tabindex attributes the 'forgot password' link is included in the tab order. -->
-                        <label for="password">Password (<a href="mailto:siteowner?subject=Forgot Password">forgot password</a>)</label>
-                        <input tabindex="2" type="password" class="form-control" id="password" name="j_password" placeholder="Password">
-                    </div>
-                        <button tabindex="3" type="submit" class="btn btn-primary">Sign in</button>
-                    </div>
-                </div>
-            </form>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="password" name="password" value="-unchanged-">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword" class="col-sm-2 control-label">Confirm Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="-unchanged-">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default" name="operation" value="modify">Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+</form>
+
+    <!-- =========================================================== -->
 
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-2"></div>
     </div>
-
-    <!-- =========================================================== -->
 
     </div><!-- /.container -->
 
@@ -114,11 +142,11 @@
         }
 
         (function ($) {
-            if (getURLParameter('success') === 'false') {
-                $('#credentials-alert').removeClass('hidden');
+            if (getURLParameter('success') === 'true') {
+                $('#settings-alert').removeClass('hidden');
             }
         })(jQuery);
     </script>
 
-</body>
+  </body>
 </html>
