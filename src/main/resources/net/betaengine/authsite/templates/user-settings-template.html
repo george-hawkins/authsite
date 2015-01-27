@@ -133,14 +133,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script src="/js/user-status.js"></script>
+    <script src="/js/authsite.js"></script>
 
     <script>
-        // http://stackoverflow.com/a/8764051/245602
-        function getURLParameter(name) {
-            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
-        }
-
         (function ($) {
             if (getURLParameter('success') === 'true') {
                 $('#settings-alert').removeClass('hidden');
