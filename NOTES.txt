@@ -1,22 +1,3 @@
-To create DB table:
-
-$ cat create-tables.ddl | heroku pg:psql
-$ cat create-users.ddl | heroku pg:psql
-
-To build:
-
-$ mvn --quiet package -DskipTests
-
-To run:
-
-$ export DATABASE_URL=$(heroku config:get DATABASE_URL)
-$ DATABASE_URL="$DATABASE_URL?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory"
-$ java -cp 'target/dependency/*' org.eclipse.jetty.runner.Runner src/main/config/etc/root-context.xml
-
-Note: using `jar -jar .../jetty-runner.jar ...` doesn't work here as `-jar` only honours the classpath in the specified jar's manifest and we want to add the DB driver jar.
-
-----
-
 Constructor injection
 ---------------------
 
@@ -95,13 +76,13 @@ For all the parameters and the defaults for the optional ones see:
 DB connection properties
 ---------------------
 
-I read the DB connection properties from the Heroku DATABASE_URL environment variable.
+I read the DB connection properties from the Heroku `DATABASE_URL` environment variable.
 
-See HerokuDbProperties and net.betaengine.authsite.MyGuiceServletConfig.createProperties().
+See `HerokuDbProperties`, `MyGuiceServletConfig.createProperties()` and `AppendHerokuDbProperties.getInputStream()`.
 
 If not using Heroku then you should be using the JdbcHelper enum - see http://mybatis.github.io/guice/jdbc-helper.html
 
-And perhaps reading properties from a file, see use of Resources.getResourceAsProperties(...) in MyBatisSqlSessionFactory in the mybatis-no-guice subproject.
+And simpler property file based configuration.
 
 ----
 

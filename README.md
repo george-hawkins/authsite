@@ -1,6 +1,43 @@
-TODO: see how Heroku passes on URLs to web-apps - since https is handled by Heroku and not the web-app.
+Website with authentication
+===========================
 
-TODO: include a '<' in a full name and see what happens.
+This project provides a very simple Jetty based webapp that can deliver a static website with public and private sections.
+
+Everything under `src/main/webapp/static` that is not in the `private` subdirectory can be viewed by anyone.
+
+Anything under `src/main/webapp/static/private` can only be seen if the viewer has logged in.
+
+User details are stored in a DB.
+
+Users can modify their own details (via the `/userSettings` page) and the admin user (see below) can create, modify and delete users.
+
+This project is intended to run on Heroku and has some Heroku specific logic (related to accessing the DB), but it could easily be adapted for a non-Heroku environment.
+
+Installation
+------------
+
+To create DB table:
+
+```bash
+$ cat create-tables.ddl | heroku pg:psql
+$ cat create-users.ddl | heroku pg:psql
+```
+
+To build:
+
+```bash
+$ mvn --quiet package -DskipTests
+```
+
+To run:
+
+```bash
+$ export DATABASE_URL=$(heroku config:get DATABASE_URL)
+$ DATABASE_URL="$DATABASE_URL?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory"
+$ java -cp 'target/dependency/*' org.eclipse.jetty.runner.Runner src/main/config/etc/root-context.xml
+```
+
+Note: using `jar -jar .../jetty-runner.jar ...` doesn't work here as `-jar` only honours the classpath in the specified jar's manifest and we want to add the DB driver jar.
 
 Admin user
 ----------
@@ -13,17 +50,14 @@ $ java -cp target/*/WEB-INF/lib/jetty-util-*.jar org.eclipse.jetty.util.security
 ```
 
 Then take the `CRYPT:` value that was output and update the admin user password in the DB like so:
-```
+```bash
 $ echo "UPDATE users SET password='CRYPT:...' WHERE username='admin'" | heroku pg:psql
 ```
 
 Check the value is as expected:
-````
+````bash
 $ echo 'SELECT * FROM users' | heroku pg:psql
 ```
-
-Creating new users
-------------------
 
 The admin user can create new users (with the role `user`) using the page `/users`.
 
@@ -85,13 +119,12 @@ This is done with the `<transport-guarantee>` tag like so:
 ```xml
 <security-constraint>
     <web-resource-collection>
-      <url-pattern>/*</url-pattern>
+        <url-pattern>/*</url-pattern>
     </web-resource-collection>
     <user-data-constraint>
-      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
-  </security-constraint>
-</web-app>
+</security-constraint>
 ```
 
 See e.g. https://click.apache.org/docs/user-guide/html/ch06.html for more details.
@@ -109,10 +142,10 @@ Jetty also provides its own somewhat more flexible XML configuration for this.
 
 See:
 
-    http://eclipse.org/jetty/documentation/current/custom-error-pages.html
-    http://stackoverflow.com/questions/7066192/how-to-specify-the-default-error-page-in-web-xml
-    http://www.tutorialspoint.com/servlets/servlets-exception-handling.htm
-    http://stackoverflow.com/a/15973954/245602
+* http://eclipse.org/jetty/documentation/current/custom-error-pages.html
+* http://stackoverflow.com/questions/7066192/how-to-specify-the-default-error-page-in-web-xml
+* http://www.tutorialspoint.com/servlets/servlets-exception-handling.htm
+* http://stackoverflow.com/a/15973954/245602
 
 Some/most errors probably shouldn't be propagated as exceptions to the web user and should be better handled in the code.
 
@@ -134,25 +167,25 @@ AngularJS with Bootstrap seems to be covered by one clearly dominant project - h
 
 For JSF it's a little less clear - PrimeFaces seems to be the dominant modern JSF library and it supports a Bootstrap theme:
 
-    http://www.primefaces.org/gettingStarted
+* http://www.primefaces.org/gettingStarted
 
 There are alternatives, e.g. see:
 
-    http://www.bootsfaces.net/page/examples/index.xhtml
-    http://blog.hatemalimam.com/jsf-and-twitter-bootstrap-integration/
-    https://github.com/pfroy/Bootstrap-JSF2.2
+* http://www.bootsfaces.net/page/examples/index.xhtml
+* http://blog.hatemalimam.com/jsf-and-twitter-bootstrap-integration/
+* https://github.com/pfroy/Bootstrap-JSF2.2
 
 For some comentary see http://stackoverflow.com/a/25636220/245602
 
 To get started with JSF see:
 
-    http://www.tutorialspoint.com/jsf/jsf_quick_guide.htm
-    http://docs.oracle.com/javaee/6/tutorial/doc/gjaam.html
-    http://docs.oracle.com/javaee/7/tutorial/jsf-page.htm
+* http://www.tutorialspoint.com/jsf/jsf_quick_guide.htm
+* http://docs.oracle.com/javaee/6/tutorial/doc/gjaam.html
+* http://docs.oracle.com/javaee/7/tutorial/jsf-page.htm
 
 See also the JSF 2 and PrimeFaces tutorials at:
 
-    http://www.coreservlets.com/JSF-Tutorial/jsf2/#Tutorial-Intro
+* http://www.coreservlets.com/JSF-Tutorial/jsf2/#Tutorial-Intro
 
 Caching
 -------
@@ -175,3 +208,12 @@ In short Heroku isn't great for static assets. The suggested solution is store t
 Such assets can then be served using JetS3t Gatekeeper - see the basic authorization section of http://www.jets3t.org/applications/gatekeeper-concepts.html
 
 On Linux you can interact with S3 buckets directly by mounting them locally using [s3fs-fuse](https://github.com/s3fs-fuse/s3fs-fuse/wiki/Fuse-Over-Amazon).
+
+Shiro
+-----
+
+Using the Jetty container specific authentication logic and baking in various bits of user management stuff around it just for this project was probably a bad idea.
+
+Using something like Shiro would probably be a more sensible long term approach:
+
+* http://shiro.apache.org/webapp-tutorial.html
