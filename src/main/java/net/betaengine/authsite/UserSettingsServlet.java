@@ -16,7 +16,7 @@ import com.google.inject.Singleton;
 @SuppressWarnings("serial")
 @Singleton
 public class UserSettingsServlet extends AbstractUserServlet {
-    private final static String PAGE_TEMPLATE = getTemplate("templates/user-settings-template.html");
+    private String pageTemplate;
     
     @Inject
     UserSettingsServlet(UserService userService) {
@@ -24,10 +24,15 @@ public class UserSettingsServlet extends AbstractUserServlet {
     }
     
     @Override
+    public void init() {
+        pageTemplate = getTemplate("user-settings-template.html");
+    }
+    
+    @Override
     protected String createPage(HttpServletRequest request) throws IOException {
         User user = getUser(request);
         
-        return PAGE_TEMPLATE
+        return pageTemplate
                 .replace("FULL_NAME", escape(user.getFullName()))
                 .replace("EMAIL", escape(user.getEmail()));
     }

@@ -108,9 +108,9 @@ public abstract class AbstractUserServlet extends HttpServlet {
         user.setPassword(Credential.Crypt.crypt(username, password));
     }
     
-    protected static String getTemplate(String path) {
+    protected String getTemplate(String path) {
         try {
-            URL url = Resources.getResource(AbstractUserServlet.class, path);
+            URL url = getServletContext().getResource("/WEB-INF/templates/" + path);
             
             return Resources.toString(url, StandardCharsets.ISO_8859_1);
         } catch (IOException e) {

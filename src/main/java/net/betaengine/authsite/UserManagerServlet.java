@@ -18,13 +18,19 @@ import com.google.inject.Singleton;
 @SuppressWarnings("serial")
 @Singleton
 public class UserManagerServlet extends AbstractUserServlet {
-    private final static String PAGE_TEMPLATE = getTemplate("templates/user-manager-template.html");
     private final static String ADMIN_USER = "admin";
     private final static String USER_ROW = "<tr><td><input type=\"checkbox\" name=\"id\" value=\"%d\"></td><td class=\"x-username\">%s</td><td class=\"x-fullName\">%s</td><td class=\"x-email\">%s</td></tr>%n";
+
+    private String pageTemplate;
     
     @Inject
     UserManagerServlet(UserService userService) {
         super(userService);
+    }
+    
+    @Override
+    public void init() {
+        pageTemplate = getTemplate("user-manager-template.html");
     }
     
     @Override
@@ -35,7 +41,7 @@ public class UserManagerServlet extends AbstractUserServlet {
         users.forEach(user -> builder.append(String.format(USER_ROW,
                 user.getId(), escape(user.getUsername()), escape(user.getFullName()), escape(user.getEmail()))));
         
-        return PAGE_TEMPLATE.replace("USER_ROWS", builder.toString());
+        return pageTemplate.replace("USER_ROWS", builder.toString());
     }
 
     @Override
