@@ -7,7 +7,7 @@
 
     <login-config>
         <auth-method>FORM</auth-method>
-        <realm-name>Test Realm</realm-name>
+        <realm-name>JDBC Realm</realm-name> <!-- The name is irrelevant (unless using the construction by discovery process). -->
         <form-login-config>
             <form-login-page>/login.html</form-login-page>
             <form-error-page>/login.html?success=false</form-error-page>

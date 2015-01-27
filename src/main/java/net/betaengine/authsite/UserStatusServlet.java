@@ -1,12 +1,14 @@
 package net.betaengine.authsite;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.betaengine.authsite.mybatis.domain.User;
 import net.betaengine.authsite.mybatis.service.UserService;
 import net.betaengine.authsite.util.Util;
 
@@ -26,10 +28,16 @@ public class UserStatusServlet extends HttpServlet {
     
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String username = request.getRemoteUser();
-        boolean isLoggedIn = username != null;
-        String fullName = isLoggedIn ? getFullName(request, username) : null;
+        Optional<User> user = SessionUser.getUser(request, userService);
         
+        if (user.isPresent()) {
+            writeRespons(response, true, user.get().getUsername(), user.get().getFullName());
+        } else {
+            writeRespons(response, false, null, null);
+        }
+    }
+    
+    private void writeRespons(HttpServletResponse response, boolean isLoggedIn, String username, String fullName) throws IOException {
         response.setContentType(MediaType.JSON_UTF_8.toString());
         
         response.getWriter().print(Util.generateJsonAsString(generator -> {
@@ -37,18 +45,5 @@ public class UserStatusServlet extends HttpServlet {
             generator.writeStringField("username", username);
             generator.writeStringField("fullName", fullName);
         }));
-    }
-    
-    private String getFullName(HttpServletRequest request, String username) {
-        return userService.getUserByUsername(username).getFullName();
-//        HttpSession session = request.getSession();
-//        User user = (User)session.getAttribute("user");
-//        
-//        if (user == null) {
-//            user = userService.getUserByUsername(username);
-//            session.setAttribute("user", user);
-//        }
-//
-//        return user.getFullName();
     }
 }

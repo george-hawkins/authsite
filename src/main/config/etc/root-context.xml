@@ -30,8 +30,8 @@
 
     <Get name="securityHandler">
         <Set name="loginService">
-            <New class="org.eclipse.jetty.security.JDBCLoginService">
-                <Set name="name">Test JDBC Realm</Set>
+            <New class="net.betaengine.authsite.util.PurgingJDBCLoginService">
+                <Set name="name">JDBC Realm</Set> <!-- The name is irrelevant (unless using the construction by discovery process). -->
                 <!--
                      If not using Heroku the DB properties can all simply be specified in a standard properties file.
                      <Set name="config">src/main/config/etc/jdbcRealm.properties</Set>

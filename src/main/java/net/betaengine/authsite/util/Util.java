@@ -12,7 +12,6 @@ import javax.servlet.ServletRequest;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.google.common.collect.ImmutableList;
 
 public class Util {
     public static RuntimeException unchecked(Exception e) {

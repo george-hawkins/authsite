@@ -39,7 +39,13 @@ public class UserSettingsServlet extends AbstractUserServlet {
 
     @Override
     protected Map<String, Consumer<HttpServletRequest>> createOperations() {
-        return ImmutableMap.of("modify", request -> modifyUser(request, getUser(request)));
+        return ImmutableMap.of("modify", this::modifyUser);
+    }
+    
+    private void modifyUser(HttpServletRequest request) {
+        modifyUser(request, getUser(request));
+        
+        SessionUser.clear(request);
     }
     
     private User getUser(HttpServletRequest request) {
