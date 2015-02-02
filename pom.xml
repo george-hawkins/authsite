@@ -108,6 +108,30 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <!-- Warning: jekyll will delete any content already in the destination directory. -->
+                                <exec executable="jekyll">
+                                    <arg value="build"/>
+                                    <arg value="--source"/>
+                                    <arg value="src/main/jekyll"/>
+                                    <arg value="--destination"/>
+                                    <arg value="target/${project.artifactId}-${project.version}"/>
+                                </exec>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.5</version>
                 <executions>
