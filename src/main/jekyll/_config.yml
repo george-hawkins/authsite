@@ -1,0 +1,20 @@
+# Site settings
+title: Secure IoT
+baseurl: "/" # The subpath of your site.
+url: "https://www.secure-iot.net" # The base hostname and protocol for your site.
+
+collections:
+    main_pages: # Pages to be included in the navbar.
+        output: true
+        permalink: /:path:output_ext
+    internal:
+        output: true
+        permalink: /:path:output_ext
+    web_inf:
+        output: true
+        permalink: /WEB-INF/:path:output_ext
+
+# Build settings
+markdown: redcarpet
+redcarpet:
+    extensions: ["no_intra_emphasis", "tables", "autolink", "strikethrough", "with_toc_data"]

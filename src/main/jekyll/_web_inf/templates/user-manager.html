@@ -1,61 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>User Manager</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <style>
-    body {
-        padding-top: 70px; /* http://getbootstrap.com/components/#callout-navbar-fixed-top-padding */
-    }
-    </style>
-
-</head>
-
-<body>
-
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <!-- This block with the icon-bar spans etc. is boilerplate for the navigation menu button shown when space is limited. -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">AuthSite</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li id="nav-user-name" class="hidden"><a href="/userSettings"><!-- user name --></a></li>
-                    <li id="nav-user-login" class="hidden"/><a href="#"><!-- sign in/out --></a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-
-    <!-- =========================================================== -->
-
+---
+title: User Manager
+layout: narrow
+---
 <div class="jumbotron">
     <h1>User Manager</h1>
     <p>On this page you can create new users and modify existing ones.</p>
@@ -144,21 +90,6 @@
 </div>
 </form>
 
-    <!-- =========================================================== -->
-
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-
-    </div><!-- /.container -->
-
-    <hr>
-    <footer>
-        <div class="container">
-            &copy; 2015 George C. Hawkins.
-        </div>
-    </footer>
-
 <form class="form-horizontal" method="POST">
     <div id="modify-modal" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
@@ -213,45 +144,35 @@
     </div>
 </form>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script src="/js/authsite.js"></script>
+<script>
+    var onReady = function ($) {
+        var UNCHANGED = "-unchanged-";
 
-    <script>
-        (function ($) {
-            var UNCHANGED = "-unchanged-";
+        $('#modify').click(function (e) {
+            e.preventDefault();
 
-            $('#modify').click(function (e) {
-                e.preventDefault();
+            var checked = $('#users input:checked');
 
-                var checked = $('#users input:checked');
+            if (checked.length > 0) {
+                var row = checked.first().closest('tr');
 
-                if (checked.length > 0) {
-                    var row = checked.first().closest('tr');
+                var id = row.find('input[name=id]').attr('value');
+                var username = row.find('.x-username').text();
+                var fullName = row.find('.x-fullName').text();
+                var email = row.find('.x-email').text();
 
-                    var id = row.find('input[name=id]').attr('value');
-                    var username = row.find('.x-username').text();
-                    var fullName = row.find('.x-fullName').text();
-                    var email = row.find('.x-email').text();
+                var modal = $('#modify-modal');
 
-                    var modal = $('#modify-modal');
-
-                    modal.find('input[name=id]').val(id);
-                    modal.find('.x-username').text(username);
-                    modal.find('input[name=fullName]').val(fullName);
-                    modal.find('input[name=email]').val(email);
-                    modal.find('input[name=password]').val(UNCHANGED);
-                    modal.find('input[name=confirmPassword]').val(UNCHANGED);
-                    modal.modal({backdrop: 'static'});
-                } else {
-                    alert('You must select a user first.');
-                }
-            });
-        })(jQuery);
-    </script>
-
-  </body>
-</html>
+                modal.find('input[name=id]').val(id);
+                modal.find('.x-username').text(username);
+                modal.find('input[name=fullName]').val(fullName);
+                modal.find('input[name=email]').val(email);
+                modal.find('input[name=password]').val(UNCHANGED);
+                modal.find('input[name=confirmPassword]').val(UNCHANGED);
+                modal.modal({backdrop: 'static'});
+            } else {
+                alert('You must select a user first.');
+            }
+        });
+    };
+</script>

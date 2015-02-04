@@ -1,0 +1,17 @@
+---
+layout: default
+---
+{% if page.row_widths %}
+    {% assign border_cols = page.row_widths.border %}
+    {% assign content_cols = page.row_widths.content %}
+{% else %}
+    {% assign border_cols = 2 %}
+    {% assign content_cols = 8 %}
+{% endif %}
+<div class="row">
+    <div class="col-md-{{border_cols}}"></div>
+    <div class="col-md-{{content_cols}}">
+        {{ content }}
+    </div>
+    <div class="col-md-{{border_cols}}"></div>
+</div>

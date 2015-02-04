@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Psi</title>
+    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -41,10 +41,10 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Alpha</a></li>
-                    <li><a href="/page-beta.html">Beta</a></li>
-                    <li class="active"><a href="/private/">Psi</a></li>
-                    <li><a href="/private/page-omega.html">Omega</a></li>
+                    {% assign pages = site.main_pages | sort: "title" %}
+                    {% for p in pages %}
+                        <li{% if p.url == page.url %} class="active"{% endif %}><a href="{{ p.url }}">{{ p.title }}</a></li>
+                    {% endfor %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li id="nav-user-name" class="hidden"><a href="/userSettings"><!-- user name --></a></li>
@@ -55,20 +55,8 @@
     </nav>
 
     <div class="container">
-
-    <!-- =========================================================== -->
-
-    <!-- Remember to change title, active li tag and 'This is...' text. -->
-
-    <div class="jumbotron">
-        <h1>This is page Psi &psi;</h1>
-        <p>Pages Alpha and Beta are public and you do not need to be logged in to access them.</p>
-        <p>Pages Psi and Omega are private and you need to be logged in to access them.</p>
+        {{ content }}
     </div>
-
-    <!-- =========================================================== -->
-
-    </div><!-- /.container -->
 
     <hr>
     <footer>

@@ -121,8 +121,10 @@
                                     <arg value="--source"/>
                                     <arg value="src/main/jekyll"/>
                                     <arg value="--destination"/>
-                                    <arg value="target/${project.artifactId}-${project.version}"/>
+                                    <arg value="target/generate-resources/jekyll"/>
                                 </exec>
+                                <move file="target/generate-resources/jekyll/WEB-INF" tofile="target/${project.artifactId}-${project.version}/WEB-INF"/>
+                                <move file="target/generate-resources/jekyll" tofile="target/${project.artifactId}-${project.version}/static"/>
                             </tasks>
                         </configuration>
                         <goals>
