@@ -26,7 +26,7 @@ $ git checkout <my-branch>
 Now whenever you make updates you can build the Jekyll site and push the changes to Heroku like so:
 
 ```bash
-$ heroku-push
+$ ./heroku-push
 ```
 
 The `heroku-push` command always first merges any changes on the current branch to the `heroku` branch.
