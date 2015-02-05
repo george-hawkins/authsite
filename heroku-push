@@ -1,12 +1,11 @@
 #!/bin/bash -e
 
 function error {
-    shift
     echo "Error: $*" >&2
+    exit 1
 }
 
 function confirm {
-    shift
     echo -n "$* [y] "
     read answer
 
