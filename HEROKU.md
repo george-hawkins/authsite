@@ -11,8 +11,6 @@ Setup
 $ git checkout -b heroku
 ```
 
-Setup SSL if required as outlined in the [README](https://github.com/george-hawkins/authsite/tree/jekyll#ssl).
-
 Add Heroku as a remote - the appropriate URL can be found on the dashboard.heroku.com settings page for the app.
 
 ```bash
