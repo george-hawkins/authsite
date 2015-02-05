@@ -1,7 +1,7 @@
 # Site settings
-title: Secure IoT
+title: My Site
 baseurl: "/" # The subpath of your site.
-url: "https://www.secure-iot.net" # The base hostname and protocol for your site.
+url: "https://www.my-site.com" # The base hostname and protocol for your site.
 
 collections:
     main_pages: # Pages to be included in the navbar.
