@@ -66,7 +66,7 @@ git add $jekyllSiteDir
 
 if ! git diff --staged --quiet
 then
-    get commit -m 'Updated generated site.'
+    git commit -m 'Updated generated site.'
 fi
 
 confirm "Ready to push, continue?"
