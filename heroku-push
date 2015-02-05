@@ -53,7 +53,8 @@ confirm "Merge $current to heroku branch and push result to heroku?"
 
 git checkout heroku
 
-git merge "$current"
+# Accept the default merge comment without giving user opportunity to edit it.
+git merge --no-edit "$current"
 
 jekyllSiteDir=src/main/jekyll-site
 
