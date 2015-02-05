@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 /** This filter redirects all http:// requests to https:// - use instead of CONFIDENTIAL transport-guarantee on Heroku. */
 // See http://stackoverflow.com/a/11574558/245602 and http://stackoverflow.com/a/13649976/245602
 public class HttpsRedirectFilter implements Filter {
+    private final boolean enabled = Boolean.getBoolean("ssl.only");
+    
     @Override
     public void init(FilterConfig filterConfig) throws ServletException { }
 
@@ -24,7 +26,7 @@ public class HttpsRedirectFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse)servletResponse;
         
-        if (!isConfidential(request)) {
+        if (enabled && !isConfidential(request)) {
             String httpsUrl = request.getRequestURL().toString().replace("http:", "https:");
 
             response.sendRedirect(httpsUrl);
