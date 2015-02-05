@@ -118,7 +118,7 @@
                         <id>jekyll-build</id>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <skip>${skip.jekyll}</skip>
+                            <skip>${skip.jekyll.build}</skip>
                             <tasks>
                                 <!-- Warning: jekyll will delete any content already in the destination directory. -->
                                 <exec executable="jekyll">
