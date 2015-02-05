@@ -33,6 +33,22 @@ fi
 
 current=$(git rev-parse --abbrev-ref HEAD)
 
+if [ "$current" == heroku ]
+then
+    error 'you are on the heroku branch'
+    # You should be on the branch you want to merge to the heroku branch.
+fi
+
+# Warn if the scripts exits but hasn't returned us to the original branch.
+function cleanup {
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    if [ "$branch" != "$current" ]
+    then
+        echo "Warning: you are now on $branch" >&2
+    fi
+}
+trap cleanup EXIT
+
 confirm "Merge $current to heroku branch and push result to heroku?"
 
 git checkout heroku
