@@ -1,0 +1,64 @@
+#!/bin/bash -e
+
+function error {
+    shift
+    echo "Error: $*" >&2
+}
+
+function confirm {
+    shift
+    echo -n "$* [y] "
+    read answer
+
+    if [[ -n $answer && ${answer,,} != 'y' ]]
+    then
+        exit 0
+    fi
+}
+
+if [[ -z $(git branch --list heroku) ]]
+then
+    error 'you must create a branch called heroku first'
+fi
+
+if ! git remote | egrep -q '^heroku$'
+then
+    error 'you must add a remote called heroku'
+    # git remote add heroku https://git.heroku.com/<app-name>.git
+fi
+
+if ! git diff --quiet
+then
+    error 'there are uncommitted changes in the current branch'
+fi
+
+current=$(git rev-parse --abbrev-ref HEAD)
+
+confirm "Merge $current to heroku branch and push result to heroku?"
+
+git checkout heroku
+
+git merge "$current"
+
+jekyllSiteDir=src/main/jekyll-site
+
+rm -rf $jekyllSiteDir
+
+mvn --quiet clean generate-resources -DskipTests -D"jekyll.site.dir=$jekyllSiteDir"
+
+# Either add for first time or add changes.
+git add $jekyllSiteDir
+
+if ! git diff --staged --quiet
+then
+    get commit -m 'Updated generated site.'
+fi
+
+confirm "Ready to push, continue?"
+
+# Push - potentially nuking old content if it is unrelated to this repo and branch.
+git push --force heroku heroku:master
+
+echo "Leaving heroku branch and returning to $current branch..."
+git checkout "$current"
+echo "Done."

@@ -14,6 +14,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <skip.jekyll.build>false</skip.jekyll.build>
+        <jekyll.site.dir>target/generate-resources/jekyll</jekyll.site.dir>
+
         <jetty.version>9.2.6.v20141205</jetty.version>
         <guice.version>3.0</guice.version>
         <postgresql.version>9.3-1102-jdbc41</postgresql.version>
@@ -114,6 +117,7 @@
                     <execution>
                         <phase>generate-resources</phase>
                         <configuration>
+                            <skip>${skip.jekyll}</skip>
                             <tasks>
                                 <!-- Warning: jekyll will delete any content already in the destination directory. -->
                                 <exec executable="jekyll">
@@ -121,10 +125,20 @@
                                     <arg value="--source"/>
                                     <arg value="src/main/jekyll"/>
                                     <arg value="--destination"/>
-                                    <arg value="target/generate-resources/jekyll"/>
+                                    <arg value="${jekyll.site.dir}"/>
                                 </exec>
-                                <move file="target/generate-resources/jekyll/WEB-INF" tofile="target/${project.artifactId}-${project.version}/WEB-INF"/>
-                                <move file="target/generate-resources/jekyll" tofile="target/${project.artifactId}-${project.version}/static"/>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <tasks>
+                                <copy file="${jekyll.site.dir}/WEB-INF" tofile="target/${project.artifactId}-${project.version}/WEB-INF"/>
+                                <copy file="${jekyll.site.dir}" tofile="target/${project.artifactId}-${project.version}/static"/>
                             </tasks>
                         </configuration>
                         <goals>
