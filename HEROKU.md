@@ -4,6 +4,9 @@ However this branch uses Jekyll to build the website and as Jekyll sites cannot 
 
 This can be done by creating a local branch called `heroku` and using the `heroku-push` script as described here.
 
+Setup
+-----
+
 ```bash
 $ git checkout -b heroku
 ```
@@ -22,10 +25,10 @@ Return to your original branch.
 $ git checkout <my-branch>
 ```
 
-Build Jekyll site and push to Heroku:
+Now whenever you make updates you can build the Jekyll site and push the changes to Heroku like so:
 
 ```bash
 $ heroku-push
 ```
 
-The `heroku-push` command always first merge any changes on the current branch to the `heroku` branch.
+The `heroku-push` command always first merges any changes on the current branch to the `heroku` branch.
