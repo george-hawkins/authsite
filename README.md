@@ -112,22 +112,13 @@ See Heroku's [pgbackups](https://devcenter.heroku.com/articles/pgbackups) and [i
 SSL
 ---
 
-During testing you probably don't want SSL enabled, put once deployed you should ensure that the login pages and private content are only available via https.
+When run locally pages can be accessed via http or https but when deployed to Heroku all non-https requests are redirected to https.
 
-This is done with the `<transport-guarantee>` tag like so:
+See the `-Dssl.only=true` in `Procfile` and how it affects the behavior of the class `HttpsRedirectFilter`.
 
-```xml
-<security-constraint>
-    <web-resource-collection>
-        <url-pattern>/*</url-pattern>
-    </web-resource-collection>
-    <user-data-constraint>
-        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-    </user-data-constraint>
-</security-constraint>
-```
+Normally one would achieve such redirection by configuring one or more `CONFIDENTIAL` `transport-guarantee` constraints in `web.xml` along with some container specific configuration, e.g. as described [here](http://wiki.eclipse.org/Jetty/Howto/Configure_SSL#Redirecting_http_requests_to_https) in the Jetty wiki.
 
-See e.g. https://click.apache.org/docs/user-guide/html/ch06.html for more details.
+However Heroku does what's called SSL offloading hence a filter is required rather than a security constraint.
 
 Jekyll
 ------
