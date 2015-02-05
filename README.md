@@ -129,6 +129,11 @@ This is done with the `<transport-guarantee>` tag like so:
 
 See e.g. https://click.apache.org/docs/user-guide/html/ch06.html for more details.
 
+Jekyll
+------
+
+There is a [separate branch](https://github.com/george-hawkins/authsite/tree/jekyll) that uses Jekyll to build the website, see the [`src/main/jekyll` directory](https://github.com/george-hawkins/authsite/tree/jekyll/src/main/jekyll) on that branch and the [`HEROKU.md` file](https://github.com/george-hawkins/authsite/blob/jekyll/HEROKU.md) that describes the extra steps needed when using Jekyll with Heroku.
+
 Error handling
 --------------
 
