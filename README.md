@@ -129,6 +129,8 @@ This is done with the `<transport-guarantee>` tag like so:
 
 See e.g. https://click.apache.org/docs/user-guide/html/ch06.html for more details.
 
+*Important:* Heroku does what's called SSL offloading so for Heroku just uncomment the `HttpsRedirectFilter` in `web.xml` rather than using a security constraint as described here.
+
 Jekyll
 ------
 
