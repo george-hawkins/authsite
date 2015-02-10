@@ -138,6 +138,19 @@ Unfortunately if it creates an error response Jetty's default error generation l
 
 To solve this cosmetic issue some Jetty specific logic is required, this is provided by `HttpsRedirectErrorPageHandler` (which is referenced by `root-context.xml`). This just subclasses the standard Jetty error page handler and adds logic to reference the original forwarded request where appropriate.
 
+Previously redirecting all requests to https was handled with a filter (in the fashion described in this [Jetty on Heroku](http://stackoverflow.com/questions/11564638/enforce-https-with-embedded-jetty-on-heroku/) question on StackOverflow).
+
+However this has serious issues:
+
+* if you don't use `ForwardedRequestCustomizer` then all your servlet logic will see all requests as being http, so any redirect done in a servlet will result in a redirect to a http resource, which only when requested by the client will result in the filter intercepting things and redirecting to https. I.e. every such redirect will result in two round trips to the server.
+* Filtering happens too late in the request handling process. If you request a resource via http that requires one to be logged in then this issue is picked up first, rather than that the request is coming in via http, so...
+  * the user is redirected to the login page (via http),
+  * the filter then redirects to https when the login page is requested,
+  * the user logs in - however being logged in applies only to the https session,
+  * but the stored URI, that the login logic forwards the user to, is the original http request,
+  * so as the user is not logged in, as far as http is concerned, they are once again forwarded to a login page (via http)
+  * and the cycle repeats until the user gets bored.
+
 Jekyll
 ------
 
