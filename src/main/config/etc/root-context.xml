@@ -6,6 +6,10 @@
     <Set name="contextPath">/</Set>
     <Set name="war">target/authsite.war</Set>
 
+    <Set name="errorHandler">
+        <New class="net.betaengine.authsite.util.HttpsRedirectErrorPageHandler"/>
+    </Set>
+
     <!--
     By default Configuration.ClassList contains just the configurations in WebAppContext.DEFAULT_CONFIGURATION_CLASSES.
     This logic modifies the list so that it matches Runner.__plusConfigurationClasses.

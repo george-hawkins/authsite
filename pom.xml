@@ -14,6 +14,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <transport.guarantee>NONE</transport.guarantee>
+
         <jetty.version>9.2.6.v20141205</jetty.version>
         <guice.version>3.0</guice.version>
         <postgresql.version>9.3-1102-jdbc41</postgresql.version>
@@ -168,6 +170,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                     <warName>${project.artifactId}</warName>
                 </configuration>
             </plugin>
