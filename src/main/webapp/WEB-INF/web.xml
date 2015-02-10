@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app
-    xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
     version="3.1">
@@ -44,7 +44,7 @@
             <transport-guarantee>${transport.guarantee}</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    
+
     <security-constraint>
         <web-resource-collection>
             <url-pattern>/userSettings</url-pattern>
@@ -57,7 +57,7 @@
             <transport-guarantee>${transport.guarantee}</transport-guarantee>
         </user-data-constraint>
     </security-constraint>
-    
+
     <servlet>
         <servlet-name>staticContent</servlet-name>
         <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
