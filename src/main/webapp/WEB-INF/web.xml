@@ -69,6 +69,10 @@
             <param-name>dirAllowed</param-name>
             <param-value>false</param-value>
         </init-param>
+        <init-param>
+            <param-name>cacheControl</param-name>
+            <param-value>no-store</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>staticContent</servlet-name>
