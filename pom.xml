@@ -16,6 +16,8 @@
 
         <skip.jekyll.build>false</skip.jekyll.build>
         <jekyll.site.dir>target/generate-resources/jekyll</jekyll.site.dir>
+        <artifact.dir>target/${project.artifactId}-${project.version}</artifact.dir>
+        <transport.guarantee>NONE</transport.guarantee>
 
         <jetty.version>9.2.6.v20141205</jetty.version>
         <guice.version>3.0</guice.version>
@@ -119,7 +121,7 @@
                         <phase>generate-resources</phase>
                         <configuration>
                             <skip>${skip.jekyll.build}</skip>
-                            <tasks>
+                            <target>
                                 <!-- Warning: jekyll will delete any content already in the destination directory. -->
                                 <exec executable="jekyll">
                                     <arg value="build"/>
@@ -128,7 +130,7 @@
                                     <arg value="--destination"/>
                                     <arg value="${jekyll.site.dir}"/>
                                 </exec>
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
@@ -138,14 +140,14 @@
                         <id>copy-jekyll-site</id>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <tasks>
-                                <copy todir="target/${project.artifactId}-${project.version}/WEB-INF">
+                            <target>
+                                <copy todir="${artifact.dir}/WEB-INF">
                                     <fileset dir="${jekyll.site.dir}/WEB-INF"/>
                                 </copy>
-                                <copy todir="target/${project.artifactId}-${project.version}/static">
+                                <copy todir="${artifact.dir}/static">
                                     <fileset dir="${jekyll.site.dir}" excludes="WEB-INF/"/>
                                 </copy>
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
@@ -214,6 +216,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                     <warName>${project.artifactId}</warName>
                 </configuration>
             </plugin>

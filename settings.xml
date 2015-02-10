@@ -8,6 +8,7 @@
       <properties>
           <skip.jekyll.build>true</skip.jekyll.build>
           <jekyll.site.dir>src/main/jekyll-site</jekyll.site.dir>
+          <transport.guarantee>CONFIDENTIAL</transport.guarantee>
       </properties>
     </profile>
   </profiles>

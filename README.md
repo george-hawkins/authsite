@@ -48,6 +48,7 @@ First generate a salt/hash value for the chosen password like so (replace `<pass
 ```
 $ java -cp target/*/WEB-INF/lib/jetty-util-*.jar org.eclipse.jetty.util.security.Password admin <password>
 ```
+TODO: update.
 
 Then take the `CRYPT:` value that was output and update the admin user password in the DB like so:
 ```bash
@@ -111,6 +112,8 @@ See Heroku's [pgbackups](https://devcenter.heroku.com/articles/pgbackups) and [i
 
 SSL
 ---
+
+TODO: update
 
 When run locally pages can be accessed via http or https but when deployed to Heroku all non-https requests are redirected to https.
 
