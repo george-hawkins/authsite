@@ -4,13 +4,13 @@
 
     <select id="getUserById" resultType="User">
         SELECT *
-        FROM users 
+        FROM users
         WHERE id = #{id}
     </select>
 
     <select id="getUserByUsername" resultType="User">
         SELECT *
-        FROM users 
+        FROM users
         WHERE username = #{username}
     </select>
 
@@ -32,7 +32,7 @@
     </insert>
 
     <update id="modifyUser">
-        UPDATE users 
+        UPDATE users
         SET
             fullName = #{fullName},
             email = #{email},

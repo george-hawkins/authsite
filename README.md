@@ -1,4 +1,4 @@
-Website with authentication
+website with authentication
 ===========================
 
 This project provides a very simple Jetty based webapp that can deliver a static website with public and private sections.
@@ -39,6 +39,8 @@ $ java -cp 'target/dependency/*' org.eclipse.jetty.runner.Runner src/main/config
 
 Note: using `java -jar .../jetty-runner.jar ...` doesn't work here as `-jar` only honors the classpath in the specified jar's manifest and we want to add the DB driver jar.
 
+If you compare the `java` command here with what you find in `Procfile` you'll see that `jetty.port` is specified and `jetty.xml` is used, `jetty.xml` is not required if running locally (and `jetty.port` is only needed by `jetty.xml`).
+
 Admin user
 ----------
 
@@ -48,7 +50,6 @@ First generate a salt/hash value for the chosen password like so (replace `<pass
 ```
 $ java -cp target/*/WEB-INF/lib/jetty-util-*.jar org.eclipse.jetty.util.security.Password admin <password>
 ```
-TODO: update.
 
 Then take the `CRYPT:` value that was output and update the admin user password in the DB like so:
 ```bash
@@ -113,15 +114,29 @@ See Heroku's [pgbackups](https://devcenter.heroku.com/articles/pgbackups) and [i
 SSL
 ---
 
-TODO: update
+Heroku does what's called SSL offloading, this means that SSL is handled by the Heroku infrastructure and for the underlying web server, in this case Jetty, everything looks like a plain http request.
 
-When run locally pages can be accessed via http or https but when deployed to Heroku all non-https requests are redirected to https.
+Whether the original request was https or http is communicated to Jetty by Heroku through the addition of an `x-forwarded-proto` header to all incoming requests.
 
-See the `-Dssl.only=true` in `Procfile` and how it affects the behavior of the class `HttpsRedirectFilter`.
+In order to get Jetty to look for this header and use it to hide the whole issue of SSL offloading from the webapp the Jetty customizer `ForwardedRequestCustomizer` needs to be used.
 
-Normally one would achieve such redirection by configuring one or more `CONFIDENTIAL` `transport-guarantee` constraints in `web.xml` along with some container specific configuration, e.g. as described [here](http://wiki.eclipse.org/Jetty/Howto/Configure_SSL#Redirecting_http_requests_to_https) in the Jetty wiki.
+Adding `ForwardedRequestCustomizer` is done in the file `jetty.xml` (which is then referenced in `Procfile`).
 
-However Heroku does what's called SSL offloading hence a filter is required rather than a security constraint.
+Once this is done one can require all requests to come via https using the normal `CONFIDENTIAL` `transport-guarantee` mechanism in `web.xml`.
+
+If you look at `web.xml` you will see such constraints - maven filtering is used to set the `transport-guarantee` values to `NONE` if built locally, i.e. https is not used, or to `CONFIDENTIAL` if built on Heroku.
+
+On its own setting `transport-guarantee` to `CONFIDENTIAL` causes Jetty to generate a FORBIDDEN (403) response to a request that tries to retrieve a given resource using http.
+
+More useful would be if http requests were simply redirected to the corresponding https request.
+
+Jetty doesn't provide this functionality out-of-the-box, rather a custom handler for FORBIDDEN has to be specified in `web.xml` using the `error-page` mechanism.
+
+This handler is called `HttpsRedirectServlet` and if you look at it you'll see that it does a redirect if the FORBIDDEN reason can be traced to http vs https, otherwise it generates the error response one would have seen if it wasn't present at all.
+
+Unfortunately if it creates an error response Jetty's default error generation logic will specify the URL of `HttpsRedirectServlet` as the source of the problem, rather than the original request that was forwarded to `HttpsRedirectServlet`.
+
+To solve this cosmetic issue some Jetty specific logic is required, this is provided by `HttpsRedirectErrorPageHandler` (which is referenced by `root-context.xml`). This just subclasses the standard Jetty error page handler and adds logic to reference the original forwarded request where appropriate.
 
 Jekyll
 ------
@@ -189,11 +204,15 @@ See also the JSF 2 and PrimeFaces tutorials at:
 Caching
 -------
 
-There is currently no explicit handling of page caching. If it becomes an issues you can:
+Currently `cache-control` is set to `no-store` in `web.xml`.
 
-1. Disable caching of servlet responses - http://stackoverflow.com/questions/3413036/http-response-caching
-2. Create a filter that disables caching - http://www.onjava.com/pub/a/onjava/2004/03/03/filters.html
-3. Disable caching with `<meta>` tags - http://stackoverflow.com/a/1341133/245602
+This achieves the desired affect that if the user, after logging out, uses the back button to reach a page for which one needs to be logged in then the user will be redirected to the login page rather than to a still cached copy of the page.
+
+Unfortunately this setting ensures the maximum possible load on the web server. It should be acceptable to allow in-memory caching on the client side as long as the web server is always queried to determine if the cached copy should be viewed as still valid.
+
+However other options such as `no-cache` and `must-revalidate` didn't achieve the desired behavior just described.
+
+There is much conflicting advise regarding this on StackOverflow etc., that `no-store` should be used was determined by experimentation with various options against Chrome 40.
 
 S3 content
 ----------
