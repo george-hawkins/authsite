@@ -138,6 +138,8 @@ Unfortunately if it creates an error response Jetty's default error generation l
 
 To solve this cosmetic issue some Jetty specific logic is required, this is provided by `HttpsRedirectErrorPageHandler` (which is referenced by `root-context.xml`). This just subclasses the standard Jetty error page handler and adds logic to reference the original forwarded request where appropriate.
 
+Note: `HttpsRedirectServlet` will only redirect to https if the system property `https.redirect` is true. This is property is set in `Procfile` and is left unset elsewhere - this is done because the redirect logic produces quite confusing behavior if it kicks in in an environment where https is not available.
+
 Previously redirecting all requests to https was handled with a filter (in the fashion described in this [Jetty on Heroku](http://stackoverflow.com/questions/11564638/enforce-https-with-embedded-jetty-on-heroku/) question on StackOverflow).
 
 However this has serious issues:
