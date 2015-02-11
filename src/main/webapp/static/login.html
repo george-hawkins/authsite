@@ -73,7 +73,8 @@
 
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input tabindex="1" autofocus type="text" class="form-control" id="username" name="j_username" placeholder="Username">
+                        <!-- Disable autocapitalize and autocorrect for iOS. -->
+                        <input tabindex="1" autofocus type="text" class="form-control" id="username" name="j_username" placeholder="Username" autocorrect="off" autocapitalize="none">
                     </div>
                     <div class="form-group">
                         <!-- Without the tabindex attributes the 'forgot password' link is included in the tab order. -->
