@@ -63,7 +63,8 @@ rm -rf $jekyllSiteDir
 mvn --quiet clean generate-resources -DskipTests -D"jekyll.site.dir=$jekyllSiteDir"
 
 # Either add for first time or add changes.
-git add $jekyllSiteDir
+git add --all $jekyllSiteDir
+# Note: --all causes git to mark files that are no longer there as removed, i.e. adds and removes may occur.
 
 if ! git diff --staged --quiet
 then
