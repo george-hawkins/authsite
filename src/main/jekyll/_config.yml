@@ -1,5 +1,5 @@
 # Site settings
-title: My Site
+title: AuthSite
 baseurl: "/" # The subpath of your site.
 url: "https://www.my-site.com" # The base hostname and protocol for your site.
 
