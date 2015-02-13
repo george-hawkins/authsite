@@ -1,0 +1,35 @@
+/*
+ * github-markdown.css provides all the CSS needed for the markdown content.
+ *
+ * However a few more things are needed to wrap the content.
+ *
+ * In order to switch on the GFM L&F content must be wrapped with a <div>
+ * with the "markdown-body" class.
+ *
+ * The "markdown-container" is used to further wrap content to give it a
+ * nice border, padding etc.
+ *
+ * "non-markdown" is a class for wrapping non-markdown content that appears
+ * alongside "markdown-body" content so the two look nice side-by-side. It
+ * provides top padding, if bottom padding is also required then wrap your
+ * content in <p>...</p>.
+ */
+.markdown-body {
+    padding-left: 30px; /* Create the space needed for hover anchors to the left of headings. */
+}
+.markdown-container {
+    /* Surround content with a border with slightly rounded corners. */
+    border:1px solid #ddd;
+    border-radius:3px;
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 30px;
+
+    /* Panels etc. in Bootstrap have a bottom margin of 20px to nicely space them from the following element. */
+    margin-bottom: 20px
+}
+.non-markdown {
+    padding-top: 10px;
+    padding-left: 30px;
+}
