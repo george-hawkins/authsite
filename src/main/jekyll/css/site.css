@@ -1,0 +1,15 @@
+/* If you switch from a page with a scrollbar to one without (or trigger
+ * the appearance of a scrollbar by expanding some content or shrinking
+ * the window) then the layout will change (due to differences in the
+ * widths of the left and right outer margins). The only way around this
+ * (really) is to force a scrollbar to be always present whether needed
+ * or not.
+ */
+html {
+    overflow-y: scroll; /* See http://stackoverflow.com/a/4297846/245602 */
+}
+
+body {
+    padding-top: 70px; /* See http://getbootstrap.com/components/#callout-navbar-fixed-top-padding */
+    padding-bottom: 40px; /* Add some space below footer. */
+}
