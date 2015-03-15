@@ -30,7 +30,7 @@
     </security-constraint>
     <!--
          The transport-guarantee CONFIDENTIAL must be specified for every security-constraint
-         It is not inherited from the /* security constraint.
+         It is not inherited from the security-constraint for "/*".
     -->
 
     <security-constraint>
